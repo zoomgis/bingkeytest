@@ -9,7 +9,7 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   public getDataBingTest(key: string) {
-    let testBingUrl = "http://dev.virtualearth.net/REST/v1/Locations?" +
+    let testBingUrl = "https://dev.virtualearth.net/REST/v1/Locations?" +
       "countryRegion=TR" +
       "&c=TR" +
       "&adminDistrict=merkez" +
