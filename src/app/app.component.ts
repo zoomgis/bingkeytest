@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AppService } from './app.service';
+
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
@@ -20,6 +22,10 @@ export class AppComponent implements OnInit {
 
   public map: Map;
   public bingMapKey: string = "";
+  public resultCodeStatus: string = "...";
+  public resultCodeText: Object = new Object();
+
+  constructor(private appService: AppService) { }
 
   ngOnInit(): void {
     this.updateMap();
@@ -30,7 +36,6 @@ export class AppComponent implements OnInit {
       target: 'map',
       layers: [
         new TileLayer({
-          //source: new OSM(),
           source: new BingMaps({
             key: this.bingMapKey,
             imagerySet: 'Aerial'
@@ -43,8 +48,6 @@ export class AppComponent implements OnInit {
         zoom: 3
       })
     });
-
-    console.log(this.map);
   }
 
   public setBingMapKey(text: any) {
@@ -58,5 +61,17 @@ export class AppComponent implements OnInit {
       }),
       visible: true
     }));
+
+    this.resultCodeStatus = "...";
+    this.resultCodeText = new Object();
+    this.appService.getDataBingTest(this.bingMapKey).subscribe(
+      result => {
+        this.resultCodeStatus = result.statusCode;
+        this.resultCodeText = result;
+      },
+      error => {
+        this.resultCodeStatus = error.status;
+        this.resultCodeText = error;
+      });
   }
 }
