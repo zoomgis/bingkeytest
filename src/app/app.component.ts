@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     this.resultCodeText = new Object();
     this.appService.getDataBingTest(this.bingMapKey).subscribe(
       result => {
-        this.resultCodeStatus = result.statusCode;
+        this.resultCodeStatus = result["statusCode"];
         this.resultCodeText = result;
       },
       error => {
